@@ -19,3 +19,4 @@ win32:SOURCES       += $$PWD/src/widgets/win/qxtglobalshortcut_win.cpp
 
 unix:!macx:QT += x11extras
 macx:QMAKE_LFLAGS += -framework Carbon -framework CoreFoundation
+win32:LIBS += -luser32
