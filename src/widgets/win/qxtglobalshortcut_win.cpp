@@ -98,6 +98,8 @@ quint32 QxtGlobalShortcutPrivate::nativeKeycode(Qt::Key key)
         return VK_PAUSE;
     case Qt::Key_Print:
         return VK_PRINT;
+    case Qt::Key_SysReq:
+        return VK_SNAPSHOT; // windows does not have SysRq in API, but it has PrtScr
     case Qt::Key_Clear:
         return VK_CLEAR;
     case Qt::Key_Home:
