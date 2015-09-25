@@ -1,7 +1,0 @@
-#!/bin/bash
-#
-# Post-installation script for libqxt-libs package
-#
-
-# Include the automatic stuff ...
-#DEBHELPER#

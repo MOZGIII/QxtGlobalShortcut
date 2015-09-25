@@ -1,7 +1,0 @@
-#!/bin/sh
-#
-# Post-removal script for libqxt-libs package
-#
-
-# Do the automatic stuff ...
-#DEBHELPER#
