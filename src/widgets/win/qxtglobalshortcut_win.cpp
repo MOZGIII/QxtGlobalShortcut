@@ -36,7 +36,7 @@
 bool QxtGlobalShortcutPrivate::eventFilter(void* message)
 {
 #else
-bool QxtGlobalShortcutPrivate::nativeEventFilter(const QByteArray & eventType,
+bool GlobalShortcutEventFilter::nativeEventFilter(const QByteArray & eventType,
     void * message, long * result)
 {
     Q_UNUSED(eventType);
@@ -47,7 +47,7 @@ bool QxtGlobalShortcutPrivate::nativeEventFilter(const QByteArray & eventType,
     {
         const quint32 keycode = HIWORD(msg->lParam);
         const quint32 modifiers = LOWORD(msg->lParam);
-        activateShortcut(keycode, modifiers);
+        QxtGlobalShortcutPrivate::activateShortcut(keycode, modifiers);
     }
 
 #if QT_VERSION < QT_VERSION_CHECK(5,0,0)
