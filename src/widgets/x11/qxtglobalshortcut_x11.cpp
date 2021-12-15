@@ -150,7 +150,7 @@ bool QxtGlobalShortcutPrivate::eventFilter(void *message)
         unsigned int keycode = key->keycode;
         unsigned int keystate = key->state;
 #else
-bool QxtGlobalShortcutPrivate::nativeEventFilter(const QByteArray & eventType,
+bool GlobalShortcutEventFilter::nativeEventFilter(const QByteArray & eventType,
     void *message, long *result)
 {
     Q_UNUSED(result);
@@ -174,7 +174,7 @@ bool QxtGlobalShortcutPrivate::nativeEventFilter(const QByteArray & eventType,
         if(kev->state & XCB_MOD_MASK_SHIFT)
             keystate |= ShiftMask;
 #endif
-        activateShortcut(keycode,
+        QxtGlobalShortcutPrivate::activateShortcut(keycode,
             // Mod1Mask == Alt, Mod4Mask == Meta
             keystate & (ShiftMask | ControlMask | Mod1Mask | Mod4Mask));
     }
