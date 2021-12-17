@@ -76,7 +76,7 @@ quint32 QxtGlobalShortcutPrivate::nativeModifiers(Qt::KeyboardModifiers modifier
     return native;
 }
 
-quint32 QxtGlobalShortcutPrivate::nativeKeycode(Qt::Key key)
+quint32 QxtGlobalShortcutPrivate::nativeKeycode(Qt::Key key, Qt::KeyboardModifiers /* modifiers */ )
 {
     switch (key)
     {
