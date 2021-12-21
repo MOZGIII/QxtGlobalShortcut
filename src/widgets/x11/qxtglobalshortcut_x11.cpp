@@ -32,6 +32,7 @@
 #include <QApplication>
 #include <QVector>
 #include <X11/Xlib.h>
+#include <X11/Xutil.h>
 #include <QX11Info>
 #include <xcb/xcb.h>
 
@@ -205,11 +206,52 @@ quint32 QxtGlobalShortcutPrivate::nativeModifiers(Qt::KeyboardModifiers modifier
     return native;
 }
 
-quint32 QxtGlobalShortcutPrivate::nativeKeycode(Qt::Key key)
+static quint32 getNumpadKeyCode(Display* d, Qt::Key key) {
+    quint32 keysym = XK_VoidSymbol;
+
+    if(key >= Qt::Key_0 && key <= Qt::Key_9) {
+        keysym = XK_KP_0 + (key - Qt::Key_0);
+    } else {
+        switch(key) {
+            case Qt::Key_Comma:
+                keysym = XK_KP_Separator;
+                break;
+            case Qt::Key_Minus:
+                keysym = XK_KP_Subtract;
+                break;
+            case Qt::Key_Plus:
+                keysym = XK_KP_Add;
+                break;
+            case Qt::Key_Enter:
+                keysym = XK_KP_Enter;
+                break;
+            case Qt::Key_Asterisk:
+                keysym = XK_KP_Multiply;
+                break;
+            case Qt::Key_Slash:
+                keysym = XK_KP_Divide;
+                break;
+
+            default: return 0;
+        }
+    }
+
+    return (keysym != XK_VoidSymbol) ? XKeysymToKeycode(d, keysym) : 0;
+}
+
+quint32 QxtGlobalShortcutPrivate::nativeKeycode(Qt::Key key, Qt::KeyboardModifiers modifiers)
 {
     QxtX11Data x11;
     if (!x11.isValid())
         return 0;
+
+    // has numpad modifier?
+    if(modifiers & Qt::KeypadModifier) {
+        quint32 code = getNumpadKeyCode(x11.display(), key);
+        if(code != 0) {
+            return code;
+        }
+    }
 
     KeySym keysym = XStringToKeysym(QKeySequence(key).toString().toLatin1().data());
     if (keysym == NoSymbol)
